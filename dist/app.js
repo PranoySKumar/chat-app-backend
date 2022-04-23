@@ -24,14 +24,12 @@ app.use(((error, req, res, next) => {
     console.log("Error occured");
     res.json({ error: true, message: error.message });
 }));
-console.log(process.env);
 //route handling
 const auth_1 = __importDefault(require("./routes/auth"));
 const dataQuery_1 = __importDefault(require("./routes/dataQuery"));
 app.use("/auth", auth_1.default);
 app.use("/data", dataQuery_1.default);
 //mongoose intialisation
-console.log(process.env.MONGODB);
 mongoose_1.default
     .connect(process.env.MONGODB || "mongodb://127.0.0.1:27017/TeaTime")
     .then(() => {

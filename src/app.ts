@@ -22,7 +22,6 @@ app.use(((error, req, res, next) => {
   console.log("Error occured");
   res.json({ error: true, message: error.message });
 }) as ErrorRequestHandler);
-console.log(process.env);
 //route handling
 import authRoutes from "./routes/auth";
 import dataQueryRoutes from "./routes/dataQuery";
@@ -30,7 +29,6 @@ app.use("/auth", authRoutes);
 app.use("/data", dataQueryRoutes);
 
 //mongoose intialisation
-console.log(process.env.MONGODB);
 mongoose
   .connect(process.env.MONGODB || "mongodb://127.0.0.1:27017/TeaTime")
   .then(() => {
