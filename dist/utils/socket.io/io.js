@@ -23,7 +23,7 @@ exports.getIO = getIO;
 function InitaliseIO(httpServer) {
     io = new socket_io_1.Server(httpServer, {
         cors: {
-            origin: process.env.CLIENT || "http://localhost:3000",
+            origin: [process.env.CLIENT || "", "http://localhost:3000"],
             methods: ["POST", "GET"],
             credentials: true,
         },

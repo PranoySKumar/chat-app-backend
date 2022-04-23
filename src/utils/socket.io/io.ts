@@ -30,7 +30,8 @@ export interface ExtendedSocket
     };
   };
 }
-export interface ExtendedIO extends Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData> {}
+export interface ExtendedIO
+  extends Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData> {}
 
 let io: Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
 
@@ -40,7 +41,7 @@ export function getIO() {
 export function InitaliseIO(httpServer: HttpServer) {
   io = new Server(httpServer, {
     cors: {
-      origin: process.env.CLIENT || "http://localhost:3000",
+      origin: [process.env.CLIENT || "", "http://localhost:3000"],
       methods: ["POST", "GET"],
       credentials: true,
     },
