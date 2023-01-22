@@ -51,18 +51,18 @@ const registerOnDisconnectManager = (socket, io) => {
             console.log("disconnected  ", socket.id);
             const { room_id, user_id } = socket.handshake.auth;
             //get the user
-            const user = yield User_1.User.get(user_id);
+            const user = User_1.User.get(user_id);
             //emit the user_left and delete the user from store
             io.to(room_id).emit("user_left", user_id, user === null || user === void 0 ? void 0 : user.alias);
             User_1.User.delete(user_id);
             //finds the room checks how many participants are remaining and deletes the
             //room
-            const room = yield Room_1.Room.findById(room_id);
-            const users = room === null || room === void 0 ? void 0 : room.participants.filter((participant_id) => user_id !== participant_id);
-            if (users.length > 0) {
-                return;
+            const room = io.sockets.adapter.rooms.get(room_id);
+            if (!room) {
+                yield Room_1.Room.findByIdAndDelete(room_id);
             }
-            room === null || room === void 0 ? void 0 : room.delete();
+            console.log("roomId", room_id);
+            yield Room_1.Room.findByIdAndDelete(room_id);
         }
         catch (error) {
             socket.emit("ERROR", error.message);

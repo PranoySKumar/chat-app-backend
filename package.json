@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/app.js",
-  "engines": {
-    "node": "17.3.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/app.js"
+    "start": "node ./dist/app.js",
+    "dev": "nodemon ./dist/app.js"
   },
   "keywords": [],
   "author": "",

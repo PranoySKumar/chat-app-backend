@@ -68,18 +68,19 @@ const registerOnDisconnectManager = (socket: ExtendedSocket, io: ExtendedIO) => 
       console.log("disconnected  ", socket.id);
       const { room_id, user_id } = socket.handshake.auth;
       //get the user
-      const user = await User.get(user_id);
+      const user = User.get(user_id);
       //emit the user_left and delete the user from store
       io.to(room_id).emit("user_left", user_id, user?.alias!);
       User.delete(user_id);
       //finds the room checks how many participants are remaining and deletes the
       //room
-      const room = await Room.findById(room_id);
-      const users = room?.participants.filter((participant_id) => user_id !== participant_id);
-      if (users!.length > 0) {
-        return;
+      const room = io.sockets.adapter.rooms.get(room_id);
+      if (!room) {
+        await Room.findByIdAndDelete(room_id);
       }
-      room?.delete();
+
+      console.log("roomId", room_id);
+      await Room.findByIdAndDelete(room_id);
     } catch (error: any) {
       socket.emit("ERROR", error.message);
     }

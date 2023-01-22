@@ -29,6 +29,7 @@ app.use("/auth", authRoutes);
 app.use("/data", dataQueryRoutes);
 
 //mongoose intialisation
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGODB || "mongodb://127.0.0.1:27017/TeaTime")
   .then(() => {
